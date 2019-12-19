@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29503.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLB.EventBus.Transport", "DLB.EventBus.Transport\DLB.EventBus.Transport.csproj", "{CDB78DFF-3848-4A8A-9086-8AF201028EDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLB.EventBus.Transport.Kafka", "..\DLB.EventBus.Transport.Kafka\DLB.EventBus.Transport.Kafka.csproj", "{767148AB-52B0-47C5-8E8E-5E22C6112EA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDB78DFF-3848-4A8A-9086-8AF201028EDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDB78DFF-3848-4A8A-9086-8AF201028EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDB78DFF-3848-4A8A-9086-8AF201028EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDB78DFF-3848-4A8A-9086-8AF201028EDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{767148AB-52B0-47C5-8E8E-5E22C6112EA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{767148AB-52B0-47C5-8E8E-5E22C6112EA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{767148AB-52B0-47C5-8E8E-5E22C6112EA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{767148AB-52B0-47C5-8E8E-5E22C6112EA1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D35DEC8F-75D2-4A61-B749-187A38DA31A8}
+	EndGlobalSection
+EndGlobal
