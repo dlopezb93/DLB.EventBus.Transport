@@ -2,7 +2,7 @@
 
 ## Use
 
-###Register Kafka transport and subscribers
+### Register Kafka transport and subscribers
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
@@ -25,7 +25,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-###Subscriber class
+### Subscriber class
 
 ```csharp
 public class HelloIntegrationEventHandler : ITransportSubscriber<HelloIntegrationEvent>
