@@ -55,7 +55,7 @@ namespace DLB.EventBus.Transport
             return Publish(name, contentObj, headers);
         }
 
-        public Task<OperateResult> Publish<T>(string name, T value, IDictionary<string, string> headers)
+        private Task<OperateResult> Publish<T>(string name, T value, IDictionary<string, string> headers)
         {
             if (string.IsNullOrEmpty(name))
             {

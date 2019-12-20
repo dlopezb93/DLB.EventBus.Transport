@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DLB.EventBus.Transport.Kafka\DLB.EventBus.Transport.Kafka.csproj" />
+    <ProjectReference Include="..\..\src\DLB.EventBus.Transport\DLB.EventBus.Transport.csproj" />
+  </ItemGroup>
+
+</Project>
