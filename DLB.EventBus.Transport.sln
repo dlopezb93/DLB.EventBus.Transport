@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLB.EventBus.Transport", "DLB.EventBus.Transport\DLB.EventBus.Transport.csproj", "{CDB78DFF-3848-4A8A-9086-8AF201028EDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLB.EventBus.Transport", "src\DLB.EventBus.Transport\DLB.EventBus.Transport.csproj", "{CDB78DFF-3848-4A8A-9086-8AF201028EDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLB.EventBus.Transport.Kafka", "..\DLB.EventBus.Transport.Kafka\DLB.EventBus.Transport.Kafka.csproj", "{767148AB-52B0-47C5-8E8E-5E22C6112EA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLB.EventBus.Transport.Kafka", "src\DLB.EventBus.Transport.Kafka\DLB.EventBus.Transport.Kafka.csproj", "{767148AB-52B0-47C5-8E8E-5E22C6112EA1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{8381BA73-C39E-4C16-9AE0-CC8F74BB5EDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Transport.AspNetCore.Kafka", "samples\Sample.Transport.AspNetCore.Kafka\Sample.Transport.AspNetCore.Kafka.csproj", "{ABD98167-A928-4533-B6FC-5F1AA1689E9B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +25,16 @@ Global
 		{767148AB-52B0-47C5-8E8E-5E22C6112EA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{767148AB-52B0-47C5-8E8E-5E22C6112EA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{767148AB-52B0-47C5-8E8E-5E22C6112EA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABD98167-A928-4533-B6FC-5F1AA1689E9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABD98167-A928-4533-B6FC-5F1AA1689E9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABD98167-A928-4533-B6FC-5F1AA1689E9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABD98167-A928-4533-B6FC-5F1AA1689E9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ABD98167-A928-4533-B6FC-5F1AA1689E9B} = {8381BA73-C39E-4C16-9AE0-CC8F74BB5EDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D35DEC8F-75D2-4A61-B749-187A38DA31A8}

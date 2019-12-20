@@ -26,7 +26,3 @@ Point to a file or code element that's the entry point for the current PR subjec
 ## What value does this provide to our end users
 
 Brief description of what end users will get if the PR is merged
-
-## Constraints
-
-Any permissions or testing/release constraints
