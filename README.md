@@ -10,14 +10,15 @@ public void ConfigureServices(IServiceCollection services)
 
             services.AddTransport(x =>
             {
-                x.UseKafka(opt =>
+                opt.UseKafka(cnf =>
                 {
-                    opt.Servers = eventBusSettings.Servers;
-                    opt.SSLCertificatePath = eventBusSettings.SSLCeriticatePath;
-                    opt.SecurityProtocol = KafkaSecurityProtocol.PlainText;
+                    cnf.MainConfig.BootstrapServers = eventBusSettings.Servers;
+                    cnf.MainConfig.SslCaLocation = eventBusSettings.SSLCeriticatePath;
                 });
 
-                x.OnLogError += X_OnLogError;
+                opt.DefaultGroup = "default_group"; // Optional
+                opt.OnLog += Transport_OnLog;
+                opt.OnLogError += Transport_OnLogError;
 
             }).RegisterSubscriber<HelloIntegrationEventHandler>();
 
