@@ -43,6 +43,11 @@ namespace DLB.EventBus.Transport.Kafka
         public string Servers { get; set; }
 
         /// <summary>
+        /// Group id from service.
+        /// </summary>
+        public string GroupId { get; set; }
+
+        /// <summary>
         /// Gets or sets the security protocol.
         /// </summary>
         /// <value>

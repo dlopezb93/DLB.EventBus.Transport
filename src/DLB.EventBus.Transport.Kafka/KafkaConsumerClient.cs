@@ -27,10 +27,10 @@ namespace DLB.EventBus.Transport.Kafka
         /// <param name="groupId">The group identifier.</param>
         /// <param name="options">The options.</param>
         /// <exception cref="ArgumentNullException">options</exception>
-        public KafkaConsumerClient(string groupId, IOptions<KafkaOptions> options)
+        public KafkaConsumerClient(IOptions<KafkaOptions> options)
         {
-            _groupId = groupId;
             _kafkaOptions = options.Value ?? throw new ArgumentNullException(nameof(options));
+            _groupId = _kafkaOptions.GroupId ?? "group_id";
         }
 
         /// <summary>

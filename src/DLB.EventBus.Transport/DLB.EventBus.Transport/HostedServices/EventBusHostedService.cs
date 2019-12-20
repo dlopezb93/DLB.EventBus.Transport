@@ -40,7 +40,7 @@ namespace DLB.EventBus.Transport.HostedServices
             _options = transportOptions.Value;
 
             //TODO think groups id
-            _consumerClient = consumerClientFactory.Create("group_1");
+            _consumerClient = consumerClientFactory.Create();
         }
 
         /// <summary>

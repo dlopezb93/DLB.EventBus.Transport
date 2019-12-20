@@ -1,6 +1,8 @@
 ﻿// Copyright (c) .NET Core Community. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+using System;
+
 namespace DLB.EventBus.Transport.Transport
 {
     /// <summary>
@@ -11,7 +13,6 @@ namespace DLB.EventBus.Transport.Transport
         /// <summary>
         /// Create a new instance of <see cref="IConsumerClient" />.
         /// </summary>
-        /// <param name="groupId">message group number</param>
-        IConsumerClient Create(string groupId);
+        IConsumerClient Create();
     }
 }

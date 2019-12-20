@@ -24,14 +24,13 @@ namespace DLB.EventBus.Transport.Kafka
         /// <summary>
         /// Create a new instance of <see cref="T:DLB.EventBus.Transport.Kafka.Transport.IConsumerClient" />.
         /// </summary>
-        /// <param name="groupId">message group number</param>
         /// <returns></returns>
         /// <exception cref="BrokerConnectionException"></exception>
-        public IConsumerClient Create(string groupId)
+        public IConsumerClient Create()
         {
             try
             {
-                return new KafkaConsumerClient(groupId, _kafkaOptions);
+                return new KafkaConsumerClient(_kafkaOptions);
             }
             catch (System.Exception e)
             {
