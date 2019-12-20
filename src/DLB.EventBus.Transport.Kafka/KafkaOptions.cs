@@ -10,8 +10,6 @@ namespace DLB.EventBus.Transport.Kafka
     /// </summary>
     public class KafkaOptions
     {        
-        //private IEnumerable<KeyValuePair<string, string>> _kafkaConfig;
-
         public KafkaOptions()
         {
             MainConfig = new ClientConfig();
