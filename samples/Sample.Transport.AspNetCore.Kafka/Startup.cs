@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using DLB.EventBus.Transport;
+using Sample.Transport.AspNetCore.Kafka.IntegrationEventsHandlers;
 
 namespace Sample.Transport.AspNetCore.Kafka
 {
@@ -32,26 +33,27 @@ namespace Sample.Transport.AspNetCore.Kafka
             {
                 opt.UseKafka(cnf =>
                 {
-                    cnf.Servers = eventBusSettings.Servers;
-                    cnf.SSLCertificatePath = eventBusSettings.SSLCeriticatePath;
+                    cnf.MainConfig.BootstrapServers = eventBusSettings.Servers;
+                    cnf.MainConfig.SslCaLocation = eventBusSettings.SSLCeriticatePath;
                 });
 
                 opt.DefaultGroup = "default_group"; // Optional
                 opt.OnLog += Transport_OnLog;
                 opt.OnLogError += Transport_OnLogError;
-            });
+
+            }).RegisterSubscriber<HelloWorldIntegrationEventHandler>();
 
             services.AddControllers();
         }
 
         private void Transport_OnLogError(object sender, DLB.EventBus.Transport.Transport.LogMessageEventArgs e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(e.Reason);
         }
 
         private void Transport_OnLog(object sender, DLB.EventBus.Transport.Transport.LogMessageEventArgs e)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(e.Reason);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

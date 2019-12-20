@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="bootstrapServers">Kafka bootstrap server urls.</param>
         public static TransportOptions UseKafka(this TransportOptions options, string bootstrapServers)
         {
-            return options.UseKafka(opt => { opt.Servers = bootstrapServers; });
+            return options.UseKafka(opt => { opt.MainConfig.BootstrapServers = bootstrapServers; });
         }
 
         /// <summary>
