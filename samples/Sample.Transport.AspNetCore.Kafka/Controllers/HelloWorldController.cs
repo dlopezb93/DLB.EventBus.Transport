@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DLB.EventBus.Transport;
+﻿using DLB.EventBus.Transport;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Sample.Transport.AspNetCore.Kafka.IntegrationEvents;
+using System;
+using System.Threading.Tasks;
 
 namespace Sample.Transport.AspNetCore.Kafka.Controllers
 {
@@ -14,14 +12,14 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
     public class HelloWorldController : ControllerBase
     {       
         private readonly ILogger<HelloWorldController> _logger;
-        private readonly ITransportPublisher transportPublisher;
+        private readonly ITransportPublisher _transportPublisher;
 
         public HelloWorldController(
                                ILogger<HelloWorldController> logger,
                                ITransportPublisher transportPublisher)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.transportPublisher = transportPublisher ?? throw new ArgumentNullException(nameof(transportPublisher));
+            _transportPublisher = transportPublisher ?? throw new ArgumentNullException(nameof(transportPublisher));
         }
 
         [HttpGet("{id}")]
@@ -33,7 +31,7 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
                 Value = "Hello world!",
             };
 
-            await this.transportPublisher.PublishAsync("hello_world", integrationEvent);
+            await _transportPublisher.PublishAsync("hello_world", integrationEvent);
 
             return "Message sended!";
         }
