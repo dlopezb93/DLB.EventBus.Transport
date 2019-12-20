@@ -1,6 +1,7 @@
 ﻿using DLB.EventBus.Transport.Transport;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace DLB.EventBus.Transport
 {
@@ -14,10 +15,19 @@ namespace DLB.EventBus.Transport
         /// </summary>
         public TransportOptions()
         {
+            DefaultGroup = "transport.group." + Assembly.GetEntryAssembly()?.GetName().Name.ToLower();
             Extensions = new List<ITransportOptionsExtension>();
         }        
 
         internal IList<ITransportOptionsExtension> Extensions { get; }
+
+        /// <summary>
+        /// Gets the default group.
+        /// </summary>
+        /// <value>
+        /// The default group.
+        /// </value>
+        public string DefaultGroup { get; set; }
 
         /// <summary>
         /// Occurs when [on log error].
