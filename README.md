@@ -54,3 +54,35 @@ public class HelloIntegrationEvent
 	public string Value { get; set; }
 }
 ```
+
+### Publish new message
+
+```csharp
+public class HelloWorldController : ControllerBase
+{       
+        private readonly ILogger<HelloWorldController> _logger;
+        private readonly ITransportPublisher _transportPublisher;
+
+        public HelloWorldController(
+                               ILogger<HelloWorldController> logger,
+                               ITransportPublisher transportPublisher)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _transportPublisher = transportPublisher ?? throw new ArgumentNullException(nameof(transportPublisher));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<string> Get(string id)
+        {
+            var integrationEvent = new HelloWorldIntegrationEvent()
+            {
+                Id = id,
+                Value = "Hello world!",
+            };
+
+            await _transportPublisher.PublishAsync("hello_world", integrationEvent);
+
+            return "Message sended!";
+        }
+}
+```
