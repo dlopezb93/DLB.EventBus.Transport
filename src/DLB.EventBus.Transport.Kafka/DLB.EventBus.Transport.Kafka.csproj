@@ -6,6 +6,7 @@
     <Description>DLB.EventBus.Transport.Kafa es un paquete nugget que permite la intercomunicación con un broker de mensajería kafka.</Description>
     <PackageProjectUrl>https://github.com/danipro1993/DLB.EventBus.Transport</PackageProjectUrl>
     <RepositoryUrl>https://github.com/danipro1993/DLB.EventBus.Transport</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

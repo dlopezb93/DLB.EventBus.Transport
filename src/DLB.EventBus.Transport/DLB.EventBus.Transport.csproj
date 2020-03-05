@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Daniel López Bayo</Authors>
     <PackageProjectUrl>https://github.com/danipro1993/DLB.EventBus.Transport</PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -40,7 +40,7 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
         }
 
         [HttpGet("second/{id}")]
-        public async Task<string> GetSecondSchema(string name)
+        public async Task<string> PublishWithoutPartitionKey(string name)
         {
             var integrationEvent = new HelloNewSchemaIntegrationEvent()
             {
