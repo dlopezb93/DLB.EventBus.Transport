@@ -13,10 +13,12 @@ namespace DLB.EventBus.Transport.Messages
         /// </summary>
         /// <param name="headers">The headers.</param>
         /// <exception cref="ArgumentNullException">headers</exception>
-        public MessageContext(IDictionary<string, string> headers)
+        public MessageContext(TransportMessage message)
         {
-            Headers = headers ?? throw new ArgumentNullException(nameof(headers));
+            Messsage = message ?? throw new ArgumentNullException(nameof(message));
         }
+
+        public TransportMessage Messsage { get; }
 
         /// <summary>
         /// Gets the headers.
@@ -24,7 +26,7 @@ namespace DLB.EventBus.Transport.Messages
         /// <value>
         /// The headers.
         /// </value>
-        public IDictionary<string, string> Headers { get; }
+        public IDictionary<string, string> Headers => Messsage.Headers;
 
         /// <summary>
         /// Gets the identifier.

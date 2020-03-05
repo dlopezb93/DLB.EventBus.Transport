@@ -31,6 +31,20 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
                 Value = "Hello world!",
             };
 
+            var result = await _transportPublisher.PublishAsync("hello_world", integrationEvent);
+
+            return "Message sended!";
+        }
+
+        [HttpGet("second/{id}")]
+        public async Task<string> GetSecondSchema(string name)
+        {
+            var integrationEvent = new HelloNewSchemaIntegrationEvent()
+            {
+                CustomerName = name,
+                Counter = 1,
+            };
+
             await _transportPublisher.PublishAsync("hello_world", integrationEvent);
 
             return "Message sended!";

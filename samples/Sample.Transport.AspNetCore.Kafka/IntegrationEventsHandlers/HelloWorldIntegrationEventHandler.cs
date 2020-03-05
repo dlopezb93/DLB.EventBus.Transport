@@ -33,7 +33,7 @@ namespace Sample.Transport.AspNetCore.Kafka.IntegrationEventsHandlers
 
             this.logger.LogInformation("Set message as commited...");
 
-            context.Commit(sender);
+            context.Commit();
         }
     }
 }

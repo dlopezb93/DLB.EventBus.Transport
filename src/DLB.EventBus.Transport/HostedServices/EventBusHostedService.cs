@@ -71,22 +71,33 @@ namespace DLB.EventBus.Transport.HostedServices
 
         private void OnMessageReceived(object sender, DLB.EventBus.Transport.Messages.TransportMessage e)
         {
-            var handler = _subscribers.FirstOrDefault(p => p.Topic == e.Topic);
             string jsonStr = Encoding.UTF8.GetString(e.Body);
+            var handlerList = _subscribers.Where(p => p.Topic == e.Topic);
 
-            if (!string.IsNullOrEmpty(jsonStr))
+            if(!string.IsNullOrEmpty(jsonStr) && handlerList != null && handlerList.Any())
             {
                 // Message received context
-                var context = new HandleContext(_consumerClient, e.Headers);
-                var method = handler.GetType().GetMethod(HandleAsyncMethod);
+                var context = new HandleContext(_consumerClient, e);
 
-                // Get only dynamic parameter, type of IntegrationEventData
-                var type = method.GetParameters().FirstOrDefault().ParameterType;
-                var data = JsonConvert.DeserializeObject(jsonStr, type);
+                foreach (var handler in handlerList)
+                {
+                    // Get only dynamic parameter, type of IntegrationEventData
+                    var method = handler.GetType().GetMethod(HandleAsyncMethod);
+                    var type = method.GetParameters().FirstOrDefault().ParameterType;
+                    var headerType = e.Headers[Messages.Headers.Type];
 
-                object[] parametersArray = new object[] { data, context, this };
+                    if (headerType == type.Name)
+                    {
+                        // If no throw exception we found a valid handler
+                        var data = JsonConvert.DeserializeObject(jsonStr, type);
 
-                method.Invoke(handler, parametersArray);
+                        object[] parametersArray = new object[] { data, context, this };
+
+                        method.Invoke(handler, parametersArray);
+
+                        break;
+                    }
+                }
             }
         }
 
