@@ -10,16 +10,19 @@ public void ConfigureServices(IServiceCollection services)
 
             services.AddTransport(x =>
             {
-                x.UseKafka(opt =>
+                opt.UseKafka(cnf =>
                 {
 				    // If you wish define your custom kafka settings
-                    //cnf.MainConfig = new Confluent.Kafka.ClientConfig(new Dictionary<string, string>());
+                    //opt.MainConfig = new Confluent.Kafka.ClientConfig(new Dictionary<string, string>());
                     opt.Servers = eventBusSettings.Servers;
                     opt.SSLCertificatePath = eventBusSettings.SSLCeriticatePath;
                     opt.SecurityProtocol = KafkaSecurityProtocol.PlainText;
+					opt.MainConfig.SslCaLocation = eventBusSettings.SSLCeriticatePath;
                 });
 
-                x.OnLogError += X_OnLogError;
+                opt.DefaultGroup = "default_group"; // Optional
+                opt.OnLog += Transport_OnLog;
+                opt.OnLogError += Transport_OnLogError;
 
             }).RegisterSubscriber<HelloIntegrationEventHandler>();
 
