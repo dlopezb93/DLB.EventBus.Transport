@@ -1,6 +1,6 @@
 # DLB.EventBus.Transport
 
-##Installation
+## Installation
 
 Install-Package DLB.EventBus.Transport.Kafka -Version 1.0.0
 
@@ -84,7 +84,7 @@ public HelloWorldController(
         }
 ```
 
-###Publish message with PartitionKey
+### Publish message with PartitionKey
 
 ```csharp
 [HttpGet("{id}")]
@@ -103,7 +103,7 @@ public HelloWorldController(
         }
 ```
 
-###Publish message without PartitionKey
+### Publish message without PartitionKey
 
 ```csharp
 public async Task<string> PublishWithoutPartitionKey(string name)
