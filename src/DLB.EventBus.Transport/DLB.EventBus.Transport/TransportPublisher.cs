@@ -36,9 +36,9 @@ namespace DLB.EventBus.Transport
         /// <param name="contentObj">message body content, that will be serialized. (can be null)</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<OperateResult> PublishAsync<T>(string name, T contentObj, CancellationToken cancellationToken = default)
+        public Task<OperateResult> PublishAsync<T>(string name, T contentObj,Func<T, string> partitionKey = null, CancellationToken cancellationToken = default)
         {
-            return Publish(name, contentObj, null);
+            return Publish(name, contentObj, null, partitionKey);
         }
 
         /// <summary>
@@ -50,12 +50,12 @@ namespace DLB.EventBus.Transport
         /// <param name="headers">message additional headers.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<OperateResult> PublishAsync<T>(string name, T contentObj, IDictionary<string, string> headers, CancellationToken cancellationToken = default)
+        public Task<OperateResult> PublishAsync<T>(string name, T contentObj, IDictionary<string, string> headers, Func<T, string> partitionKey = null, CancellationToken cancellationToken = default)
         {
-            return Publish(name, contentObj, headers);
+            return Publish(name, contentObj, headers, partitionKey);
         }
 
-        public Task<OperateResult> Publish<T>(string name, T value, IDictionary<string, string> headers)
+        private Task<OperateResult> Publish<T>(string name, T value, IDictionary<string, string> headers, Func<T, string> partitionKey = null)
         {
             if (string.IsNullOrEmpty(name))
             {
@@ -67,7 +67,7 @@ namespace DLB.EventBus.Transport
                 headers = new Dictionary<string, string>();
             }
 
-            var messageId = Guid.NewGuid().ToString();
+            var messageId = partitionKey != null ? partitionKey(value) : Guid.NewGuid().ToString();
             headers.Add(Headers.MessageId, messageId);
             headers.Add(Headers.MessageName, name);
             headers.Add(Headers.Type, typeof(T).FullName);
