@@ -116,9 +116,9 @@ namespace DLB.EventBus.Transport.Kafka
         /// Manual submit message offset when the message consumption is complete
         /// </summary>
         /// <param name="sender"></param>
-        public void Commit(object sender)
+        public void Commit()
         {
-            _consumerClient.Commit((ConsumeResult<string, byte[]>)sender);
+            _consumerClient.Commit();
         }
 
         /// <summary>

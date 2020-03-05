@@ -30,7 +30,7 @@ namespace DLB.EventBus.Transport.Transport
         /// <summary>
         /// Manual submit message offset when the message consumption is complete
         /// </summary>
-        void Commit(object sender);
+        void Commit();
 
         /// <summary>
         /// Reject message and resumption

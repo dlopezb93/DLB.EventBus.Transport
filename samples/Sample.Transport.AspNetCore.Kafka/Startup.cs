@@ -33,6 +33,8 @@ namespace Sample.Transport.AspNetCore.Kafka
             {
                 opt.UseKafka(cnf =>
                 {
+                    // If you wish define your custom kafka settings
+                    //cnf.MainConfig = new Confluent.Kafka.ClientConfig(new Dictionary<string, string>());
                     cnf.MainConfig.BootstrapServers = eventBusSettings.Servers;
                     cnf.MainConfig.SslCaLocation = eventBusSettings.SSLCeriticatePath;
                 });
@@ -41,7 +43,8 @@ namespace Sample.Transport.AspNetCore.Kafka
                 opt.OnLog += Transport_OnLog;
                 opt.OnLogError += Transport_OnLogError;
 
-            }).RegisterSubscriber<HelloWorldIntegrationEventHandler>();
+            }).RegisterSubscriber<HelloWorldIntegrationEventHandler>()
+              .RegisterSubscriber<HelloNewSchemaIntegrationEventHandler>();
 
             services.AddControllers();
         }
