@@ -19,10 +19,10 @@ namespace DLB.EventBus.Transport
         /// <param name="consumerClient">The consumer client.</param>
         /// <param name="headers">The headers.</param>
         /// <exception cref="ArgumentNullException">consumerClient</exception>
-        public HandleContext(IConsumerClient consumerClient, IDictionary<string, string> headers)
+        public HandleContext(IConsumerClient consumerClient, TransportMessage message)
         {
             _consumerClient = consumerClient ?? throw new ArgumentNullException(nameof(consumerClient));
-            MessageContext = new MessageContext(headers);
+            MessageContext = new MessageContext(message);
         }
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace DLB.EventBus.Transport
         /// Commits the specified sender.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        public void Commit(object sender)
+        public void Commit()
         {
-            _consumerClient.Commit(sender);
+            _consumerClient.Commit();
         }
     }
 }

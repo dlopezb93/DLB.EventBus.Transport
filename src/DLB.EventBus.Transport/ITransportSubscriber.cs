@@ -11,10 +11,10 @@ namespace DLB.EventBus.Transport
         /// <summary>
         /// Handles the asynchronous.
         /// </summary>
-        /// <param name="context">The context.</param>
-        /// <param name="consumer">The consumer.</param>
+        /// <param name="@event">The context.</param>
+        /// <param name="context">The consumer.</param>
         /// <param name="sender">The sender.</param>
         /// <returns></returns>
-        Task HandleAsync(TIntegrationEvent context, IHandleContext consumer, object sender);
+        Task HandleAsync(TIntegrationEvent @event, IHandleContext context, object sender);
     }   
 }

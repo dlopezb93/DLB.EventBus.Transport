@@ -31,7 +31,7 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
                 Value = "Hello world!",
             };
 
-            var result = await _transportPublisher.PublishAsync("hello_world", integrationEvent, p => p.Id);
+            var result = await _transportPublisher.PublishAsync("hello_world", integrationEvent);
 
             return "Message sended!";
         }

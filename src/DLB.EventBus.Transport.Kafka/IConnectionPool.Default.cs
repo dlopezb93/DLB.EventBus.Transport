@@ -24,7 +24,7 @@ namespace DLB.EventBus.Transport.Kafka
             logger.LogDebug("Transport Kafka configuration: {0}", JsonConvert.SerializeObject(_options.AsKafkaConfig(), Formatting.Indented));
         }
 
-        public string ServersAddress => _options.Servers;
+        public string ServersAddress => _options.MainConfig.BootstrapServers;
 
         public IProducer<string, byte[]> RentProducer()
         {

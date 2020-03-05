@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using Confluent.Kafka;
@@ -54,7 +55,7 @@ namespace DLB.EventBus.Transport.Kafka
         /// <value>
         /// The broker address.
         /// </value>
-        public BrokerAddress BrokerAddress => new BrokerAddress("Kafka", _kafkaOptions.Servers);
+        public BrokerAddress BrokerAddress => new BrokerAddress("Kafka", _kafkaOptions.MainConfig.BootstrapServers);
 
         /// <summary>
         /// Subscribe to a set of topics to the message queue
@@ -63,7 +64,7 @@ namespace DLB.EventBus.Transport.Kafka
         /// <exception cref="ArgumentNullException">topics</exception>
         public void Subscribe(IEnumerable<string> topics)
         {
-            if (topics == null)
+            if (topics == null || !topics.Any())
             {
                 throw new ArgumentNullException(nameof(topics));
             }
@@ -115,9 +116,9 @@ namespace DLB.EventBus.Transport.Kafka
         /// Manual submit message offset when the message consumption is complete
         /// </summary>
         /// <param name="sender"></param>
-        public void Commit(object sender)
+        public void Commit()
         {
-            _consumerClient.Commit((ConsumeResult<string, byte[]>)sender);
+            _consumerClient.Commit();
         }
 
         /// <summary>
@@ -152,8 +153,9 @@ namespace DLB.EventBus.Transport.Kafka
             {
                 if (_consumerClient == null)
                 {
-                    _kafkaOptions.MainConfig["group.id"] = _groupId;
-                    _kafkaOptions.MainConfig["auto.offset.reset"] = "earliest";
+                    _kafkaOptions.MainConfig.Set("group.id", _groupId);
+                    _kafkaOptions.MainConfig.Set("auto.offset.reset", "earliest");
+
                     var config = _kafkaOptions.AsKafkaConfig();
 
                     _consumerClient = new ConsumerBuilder<string, byte[]>(config)

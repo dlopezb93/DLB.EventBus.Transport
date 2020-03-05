@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DLB.EventBus.Transport\DLB.EventBus.Transport\DLB.EventBus.Transport.csproj" />
+    <ProjectReference Include="..\DLB.EventBus.Transport\DLB.EventBus.Transport.csproj" />
   </ItemGroup>
   
 </Project>
