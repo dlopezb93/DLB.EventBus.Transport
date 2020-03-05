@@ -37,7 +37,7 @@ public void ConfigureServices(IServiceCollection services)
 
 ### Subscriber class
 
-With DLB.EventBus.Transport.Kafka you can subscribe to multiple events in the same topic. Only you need define the class and implement interface ITransportSubscriber and set topic name abstract property.
+With DLB.EventBus.Transport.Kafka you can subscribe to multiple events in the same topic. Only you need to do is define the class and implement interface ITransportSubscriber and set topic name abstract property.
 
 When you are subscribe to multiple events, the handler who was execute it's determinate with name of the event (ClassName).
 
