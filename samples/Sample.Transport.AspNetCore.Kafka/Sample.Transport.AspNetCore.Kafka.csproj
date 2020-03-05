@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Authors>Daniel López Bayo</Authors>
   </PropertyGroup>
 
   <ItemGroup>

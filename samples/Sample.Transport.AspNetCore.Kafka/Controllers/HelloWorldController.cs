@@ -10,7 +10,9 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
     [ApiController]
     [Route("[controller]")]
     public class HelloWorldController : ControllerBase
-    {       
+    {
+        private const string helloWorldTopic = "hellow_world";
+
         private readonly ILogger<HelloWorldController> _logger;
         private readonly ITransportPublisher _transportPublisher;
 
@@ -31,13 +33,14 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
                 Value = "Hello world!",
             };
 
-            var result = await _transportPublisher.PublishAsync("hello_world", integrationEvent, p => p.Id);
+            // Send mensaje to Kafka with specific partition key.
+            var result = await _transportPublisher.PublishAsync(helloWorldTopic, integrationEvent, p => p.Id);
 
-            return "Message sended!";
+            return $"Success: {result.Succeeded}";
         }
 
         [HttpGet("second/{id}")]
-        public async Task<string> GetSecondSchema(string name)
+        public async Task<string> PublishWithoutPartitionKey(string name)
         {
             var integrationEvent = new HelloNewSchemaIntegrationEvent()
             {
@@ -45,9 +48,10 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
                 Counter = 1,
             };
 
-            await _transportPublisher.PublishAsync("hello_world", integrationEvent);
+            // Send mensaje to Kafka without specific partition key.
+            var result = await _transportPublisher.PublishAsync(helloWorldTopic, integrationEvent);
 
-            return "Message sended!";
+            return $"Success: {result.Succeeded}";
         }
     }
 }
