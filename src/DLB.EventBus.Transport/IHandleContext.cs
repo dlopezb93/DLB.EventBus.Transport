@@ -20,6 +20,6 @@ namespace DLB.EventBus.Transport
         /// Commits the specified sender.
         /// </summary>
         /// <param name="sender">The sender.</param>
-        void Commit(object sender);
+        void Commit();
     }
 }
