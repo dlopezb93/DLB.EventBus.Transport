@@ -1,33 +1,38 @@
 # DLB.EventBus.Transport
 
+##Installation
+
+Install-Package DLB.EventBus.Transport.Kafka -Version 1.0.0
+
 ## Use
 
 ### Register Kafka transport and subscribers
 ```csharp
 public void ConfigureServices(IServiceCollection services)
-{
-            var eventBusSettings = GetSettings();
+        {
+            // Get settings.
+            var eventBusSettings = Configuration.GetSection(nameof(EventBusSettings)).Get<EventBusSettings>();
 
-            services.AddTransport(x =>
+            services.AddTransport(opt =>
             {
                 opt.UseKafka(cnf =>
                 {
-				    // If you wish define your custom kafka settings
-                    //opt.MainConfig = new Confluent.Kafka.ClientConfig(new Dictionary<string, string>());
-                    opt.Servers = eventBusSettings.Servers;
-                    opt.SSLCertificatePath = eventBusSettings.SSLCeriticatePath;
-                    opt.SecurityProtocol = KafkaSecurityProtocol.PlainText;
-					opt.MainConfig.SslCaLocation = eventBusSettings.SSLCeriticatePath;
+                    // If you wish define your custom kafka settings
+                    //cnf.MainConfig = new Confluent.Kafka.ClientConfig(new Dictionary<string, string>());
+                    cnf.MainConfig.BootstrapServers = eventBusSettings.Servers;
+                    cnf.MainConfig.SslCaLocation = eventBusSettings.SSLCeriticatePath;
+                    cnf.MainConfig.SecurityProtocol = Confluent.Kafka.SecurityProtocol.SaslPlaintext;
                 });
 
                 opt.DefaultGroup = "default_group"; // Optional
                 opt.OnLog += Transport_OnLog;
                 opt.OnLogError += Transport_OnLogError;
 
-            }).RegisterSubscriber<HelloIntegrationEventHandler>();
+            }).RegisterSubscriber<HelloWorldIntegrationEventHandler>()
+              .RegisterSubscriber<HelloNewSchemaIntegrationEventHandler>();
 
             services.AddControllers();
-}
+        }
 ```
 
 ### Subscriber class
