@@ -16,7 +16,7 @@ namespace DLB.EventBus.Transport
         /// <param name="name">the topic name or exchange router key.</param>
         /// <param name="contentObj">message body content, that will be serialized. (can be null)</param>
         /// <param name="cancellationToken"></param>
-        Task<OperateResult> PublishAsync<T>(string name, T contentObj, CancellationToken cancellationToken = default);
+        Task<OperateResult> PublishAsync<T>(string name, T contentObj, Func<T, string> partitionKey = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Asynchronous publish an object message with custom headers
@@ -26,6 +26,6 @@ namespace DLB.EventBus.Transport
         /// <param name="contentObj">message body content, that will be serialized. (can be null)</param>
         /// <param name="headers">message additional headers.</param>
         /// <param name="cancellationToken"></param>
-        Task<OperateResult> PublishAsync<T>(string name, T contentObj, IDictionary<string, string> headers, CancellationToken cancellationToken = default);
+        Task<OperateResult> PublishAsync<T>(string name, T contentObj, IDictionary<string, string> headers, Func<T, string> partitionKey = null, CancellationToken cancellationToken = default);
     }
 }
