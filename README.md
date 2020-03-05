@@ -72,7 +72,7 @@ public class HelloIntegrationEvent
 
 ### Publisher
 
-DLB.EventBus.Transport.Kafka allow to set PartitionKey when you publish a new message in a topic. Only you need inject class 'ITransportPublisher':
+DLB.EventBus.Transport.Kafka allow to set PartitionKey when you publish a new message in a topic. Only you need to do is inject class 'ITransportPublisher':
 
 ```csharp
 public HelloWorldController(
