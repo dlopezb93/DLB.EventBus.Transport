@@ -1,5 +1,6 @@
 ﻿using DLB.EventBus.Transport;
 using DLB.EventBus.Transport.Transport;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -21,7 +22,7 @@ namespace DLB.EventBus.Transport.HostedServices
         private const string HandleAsyncMethod = "HandleAsync";
 
         private readonly IConsumerClient _consumerClient;
-        private readonly IEnumerable<ISubscriber> _subscribers;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private TransportOptions _options;
 
         /// <summary>
@@ -33,10 +34,10 @@ namespace DLB.EventBus.Transport.HostedServices
         /// <exception cref="ArgumentNullException">subscribers</exception>
         public EventBusHostedService(
                                     IConsumerClientFactory consumerClientFactory,
-                                    IEnumerable<ISubscriber> subscribers,
+                                    IServiceScopeFactory serviceScopeFactory,
                                     IOptions<TransportOptions> transportOptions)
         {
-            _subscribers = subscribers ?? throw new ArgumentNullException(nameof(subscribers));
+            _serviceScopeFactory = serviceScopeFactory ?? throw new ArgumentNullException(nameof(serviceScopeFactory));
             _options = transportOptions.Value;
 
             //TODO think groups id
@@ -55,11 +56,17 @@ namespace DLB.EventBus.Transport.HostedServices
         {
             Task.Run(() =>
             {
-                // Subscribe to topics.
-                var topics = _subscribers.Select(p => p.Topic);
+                IEnumerable<string> topics;
+                using(var scope = _serviceScopeFactory.CreateScope())
+                {
+                    var subscribers = scope.ServiceProvider.GetService<IEnumerable<ISubscriber>>();
+                    topics = subscribers?.Select(p => p.Topic);
+                }
 
+                // Subscribe to topics.
                 _consumerClient.Subscribe(topics);
-                _consumerClient.OnMessageReceived += OnMessageReceived;
+                //_consumerClient.OnMessageReceived += OnMessageReceived;
+                _consumerClient.OnMessageReceived += async (s, m) => await OnMessageReceived(s, m);
                 _consumerClient.OnLogError += OnLogErrorReceived;
                 _consumerClient.OnLog += OnLogReceived;
 
@@ -69,33 +76,39 @@ namespace DLB.EventBus.Transport.HostedServices
             return Task.CompletedTask;
         }        
 
-        private void OnMessageReceived(object sender, DLB.EventBus.Transport.Messages.TransportMessage e)
+        private async Task OnMessageReceived(object sender, DLB.EventBus.Transport.Messages.TransportMessage e)
         {
-            string jsonStr = Encoding.UTF8.GetString(e.Body);
-            var handlerList = _subscribers.Where(p => p.Topic == e.Topic);
-
-            if(!string.IsNullOrEmpty(jsonStr) && handlerList != null && handlerList.Any())
+            using (var scope = _serviceScopeFactory.CreateScope())
             {
-                // Message received context
-                var context = new HandleContext(_consumerClient, e);
+                var subscribers = scope.ServiceProvider.GetService<IEnumerable<ISubscriber>>();
+                string jsonStr = Encoding.UTF8.GetString(e.Body);
+                var handlerList = subscribers.Where(p => p.Topic == e.Topic);
 
-                foreach (var handler in handlerList)
+                if (!string.IsNullOrEmpty(jsonStr) && handlerList != null && handlerList.Any())
                 {
-                    // Get only dynamic parameter, type of IntegrationEventData
-                    var method = handler.GetType().GetMethod(HandleAsyncMethod);
-                    var type = method.GetParameters().FirstOrDefault().ParameterType;
-                    var headerType = e.Headers[Messages.Headers.Type];
+                    // Message received context
+                    var context = new HandleContext(_consumerClient, e);
 
-                    if (headerType == type.Name)
+                    foreach (var handler in handlerList)
                     {
-                        // If no throw exception we found a valid handler
-                        var data = JsonConvert.DeserializeObject(jsonStr, type);
+                        // Get only dynamic parameter, type of IntegrationEventData
+                        var method = handler.GetType().GetMethod(HandleAsyncMethod);
+                        var type = method.GetParameters().FirstOrDefault().ParameterType;
+                        var headerType = e.Headers[Messages.Headers.Type];
 
-                        object[] parametersArray = new object[] { data, context, this };
+                        if (headerType == type.Name)
+                        {
+                            // If no throw exception we found a valid handler
+                            var data = JsonConvert.DeserializeObject(jsonStr, type);
 
-                        method.Invoke(handler, parametersArray);
+                            object[] parametersArray = new object[] { data, context, this };
 
-                        break;
+                            var task = (Task)method.Invoke(handler, parametersArray);
+
+                            await task.ConfigureAwait(false);
+
+                            break;
+                        }
                     }
                 }
             }
