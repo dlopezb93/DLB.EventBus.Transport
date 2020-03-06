@@ -33,6 +33,12 @@ namespace DLB.EventBus.Transport.Transport
         void Commit();
 
         /// <summary>
+        /// Commits the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        void Commit(object message);
+
+        /// <summary>
         /// Reject message and resumption
         /// </summary>
         void Reject(object sender);

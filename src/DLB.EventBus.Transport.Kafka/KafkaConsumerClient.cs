@@ -85,7 +85,7 @@ namespace DLB.EventBus.Transport.Kafka
             while (true)
             {
                 var consumerResult = _consumerClient.Consume(cancellationToken);
-
+                
                 if (consumerResult.IsPartitionEOF || consumerResult.Value == null) continue;
 
                 var headers = new Dictionary<string, string>(consumerResult.Headers.Count);
@@ -106,7 +106,7 @@ namespace DLB.EventBus.Transport.Kafka
                     }
                 }
 
-                var message = new TransportMessage(headers, consumerResult.Value, consumerResult.Topic);
+                var message = new TransportMessage(headers, consumerResult.Value, consumerResult.Topic, consumerResult);
 
                 OnMessageReceived?.Invoke(consumerResult, message);
             }
@@ -119,6 +119,14 @@ namespace DLB.EventBus.Transport.Kafka
         public void Commit()
         {
             _consumerClient.Commit();
+        }
+
+        public void Commit(object message)
+        {
+            if (message is ConsumeResult<string, byte[]> consumerResult)
+            {
+                _consumerClient.Commit(consumerResult);
+            }
         }
 
         /// <summary>

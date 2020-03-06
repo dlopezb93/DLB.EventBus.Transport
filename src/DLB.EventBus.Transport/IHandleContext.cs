@@ -21,5 +21,11 @@ namespace DLB.EventBus.Transport
         /// </summary>
         /// <param name="sender">The sender.</param>
         void Commit();
+
+        /// <summary>
+        /// Commits the specified message.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        void Commit(object message);
     }
 }

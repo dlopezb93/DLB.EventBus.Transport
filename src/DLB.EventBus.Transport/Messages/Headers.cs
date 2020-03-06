@@ -14,6 +14,8 @@
 
         public const string Group = "transport-msg-group";
 
+        public const string Offset = "transport-offset";
+
         /// <summary>
         /// Message value .NET type
         /// </summary>

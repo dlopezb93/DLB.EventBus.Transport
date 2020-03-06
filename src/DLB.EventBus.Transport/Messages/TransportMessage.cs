@@ -15,11 +15,12 @@ namespace DLB.EventBus.Transport.Messages
         /// <param name="body">The body.</param>
         /// <param name="topic">The topic.</param>
         /// <exception cref="ArgumentNullException">headers</exception>
-        public TransportMessage(IDictionary<string, string> headers, byte[] body, string topic)
+        public TransportMessage(IDictionary<string, string> headers, byte[] body, string topic, object consumerResult = null)
         {
             Headers = headers ?? throw new ArgumentNullException(nameof(headers));
             Body = body;
             Topic = topic;
+            ConsumerResult = consumerResult;
         }
 
         /// <summary>
@@ -29,6 +30,14 @@ namespace DLB.EventBus.Transport.Messages
         /// The topic.
         /// </value>
         public string Topic { get; set; }
+
+        /// <summary>
+        /// Gets the consumer result.
+        /// </summary>
+        /// <value>
+        /// The consumer result.
+        /// </value>
+        public object ConsumerResult { get; }
 
         /// <summary>
         /// Gets the headers of this message

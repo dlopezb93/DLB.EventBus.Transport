@@ -11,7 +11,7 @@ namespace Sample.Transport.AspNetCore.Kafka.Controllers
     [Route("[controller]")]
     public class HelloWorldController : ControllerBase
     {
-        private const string helloWorldTopic = "hellow_world";
+        private const string helloWorldTopic = "hello_world";
 
         private readonly ILogger<HelloWorldController> _logger;
         private readonly ITransportPublisher _transportPublisher;
