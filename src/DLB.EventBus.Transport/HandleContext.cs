@@ -41,5 +41,10 @@ namespace DLB.EventBus.Transport
         {
             _consumerClient.Commit();
         }
+
+        public void Commit(object message)
+        {
+            _consumerClient.Commit(message);
+        }
     }
 }

@@ -29,11 +29,11 @@ namespace Sample.Transport.AspNetCore.Kafka.IntegrationEventsHandlers
             this.logger.LogInformation($"Group: {context.MessageContext.Group}");            
 
             // Any operation
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
             this.logger.LogInformation("Set message as commited...");
 
-            context.Commit();
+            context.Commit(context.MessageContext.Messsage.ConsumerResult);
         }
     }
 }

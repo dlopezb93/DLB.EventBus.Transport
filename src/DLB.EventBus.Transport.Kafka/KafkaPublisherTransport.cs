@@ -43,7 +43,7 @@ namespace DLB.EventBus.Transport.Kafka
                     Key = message.GetId(),
                     Value = message.Body
                 });
-
+                
                 if (result.Status == PersistenceStatus.Persisted || result.Status == PersistenceStatus.PossiblyPersisted)
                 {
                     _logger.LogDebug($"kafka topic message [{message.GetName()}] has been published.");

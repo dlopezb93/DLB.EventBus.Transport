@@ -65,8 +65,7 @@ namespace DLB.EventBus.Transport.HostedServices
 
                 // Subscribe to topics.
                 _consumerClient.Subscribe(topics);
-                //_consumerClient.OnMessageReceived += OnMessageReceived;
-                _consumerClient.OnMessageReceived += async (s, m) => await OnMessageReceived(s, m);
+                _consumerClient.OnMessageReceived += async (s, m) => await OnMessageReceivedAsync(s, m);
                 _consumerClient.OnLogError += OnLogErrorReceived;
                 _consumerClient.OnLog += OnLogReceived;
 
@@ -76,7 +75,7 @@ namespace DLB.EventBus.Transport.HostedServices
             return Task.CompletedTask;
         }        
 
-        private async Task OnMessageReceived(object sender, DLB.EventBus.Transport.Messages.TransportMessage e)
+        private async Task OnMessageReceivedAsync(object sender, DLB.EventBus.Transport.Messages.TransportMessage e)
         {
             using (var scope = _serviceScopeFactory.CreateScope())
             {
@@ -96,6 +95,7 @@ namespace DLB.EventBus.Transport.HostedServices
                         var type = method.GetParameters().FirstOrDefault().ParameterType;
                         var headerType = e.Headers[Messages.Headers.Type];
 
+
                         if (headerType == type.Name)
                         {
                             // If no throw exception we found a valid handler
@@ -104,7 +104,7 @@ namespace DLB.EventBus.Transport.HostedServices
                             object[] parametersArray = new object[] { data, context, this };
 
                             var task = (Task)method.Invoke(handler, parametersArray);
-
+                            
                             await task.ConfigureAwait(false);
 
                             break;
