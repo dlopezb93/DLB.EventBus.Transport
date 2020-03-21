@@ -1,5 +1,6 @@
 ﻿using DLB.EventBus.Transport.Exceptions;
 using DLB.EventBus.Transport.Transport;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DLB.EventBus.Transport.Kafka
@@ -11,14 +12,16 @@ namespace DLB.EventBus.Transport.Kafka
     internal sealed class KafkaConsumerClientFactory : IConsumerClientFactory
     {
         private readonly IOptions<KafkaOptions> _kafkaOptions;
+        private readonly ILogger<KafkaLog> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KafkaConsumerClientFactory"/> class.
         /// </summary>
         /// <param name="kafkaOptions">The kafka options.</param>
-        public KafkaConsumerClientFactory(IOptions<KafkaOptions> kafkaOptions)
+        public KafkaConsumerClientFactory(IOptions<KafkaOptions> kafkaOptions, ILogger<KafkaLog> logger)
         {
             _kafkaOptions = kafkaOptions;
+            _logger = logger ?? throw new System.ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -31,7 +34,7 @@ namespace DLB.EventBus.Transport.Kafka
         {
             try
             {
-                return new KafkaConsumerClient(groupId, _kafkaOptions);
+                return new KafkaConsumerClient(groupId, _kafkaOptions, _logger);
             }
             catch (System.Exception e)
             {

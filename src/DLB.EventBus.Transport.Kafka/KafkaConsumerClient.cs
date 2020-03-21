@@ -6,6 +6,7 @@ using System.Threading;
 using Confluent.Kafka;
 using DLB.EventBus.Transport.Messages;
 using DLB.EventBus.Transport.Transport;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace DLB.EventBus.Transport.Kafka
@@ -19,6 +20,7 @@ namespace DLB.EventBus.Transport.Kafka
         private readonly SemaphoreSlim _connectionLock = new SemaphoreSlim(initialCount: 1, maxCount: 1);
 
         private readonly string _groupId;
+        private readonly ILogger<KafkaLog> _logger;
         private readonly KafkaOptions _kafkaOptions;
         private IConsumer<string, byte[]> _consumerClient;
 
@@ -28,9 +30,13 @@ namespace DLB.EventBus.Transport.Kafka
         /// <param name="groupId">The group identifier.</param>
         /// <param name="options">The options.</param>
         /// <exception cref="ArgumentNullException">options</exception>
-        public KafkaConsumerClient(string groupId, IOptions<KafkaOptions> options)
+        public KafkaConsumerClient(
+                string groupId,
+                IOptions<KafkaOptions> options,
+                ILogger<KafkaLog> logger)
         {
             _groupId = groupId;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _kafkaOptions = options.Value ?? throw new ArgumentNullException(nameof(options));
         }
 
@@ -171,6 +177,11 @@ namespace DLB.EventBus.Transport.Kafka
                         .SetLogHandler(ConsumerClient_OnLog)
                         .Build();
                 }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                throw ex;
             }
             finally
             {
