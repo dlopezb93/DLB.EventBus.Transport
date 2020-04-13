@@ -11,14 +11,14 @@ namespace DLB.EventBus.Transport.Kafka
     /// <seealso cref="DLB.EventBus.Transport.Kafka.Transport.IConsumerClientFactory" />
     internal sealed class KafkaConsumerClientFactory : IConsumerClientFactory
     {
-        private readonly IOptions<KafkaOptions> _kafkaOptions;
+        private readonly KafkaOptions _kafkaOptions;
         private readonly ILogger<KafkaLog> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KafkaConsumerClientFactory"/> class.
         /// </summary>
         /// <param name="kafkaOptions">The kafka options.</param>
-        public KafkaConsumerClientFactory(IOptions<KafkaOptions> kafkaOptions, ILogger<KafkaLog> logger)
+        public KafkaConsumerClientFactory(KafkaOptions kafkaOptions, ILogger<KafkaLog> logger)
         {
             _kafkaOptions = kafkaOptions;
             _logger = logger ?? throw new System.ArgumentNullException(nameof(logger));

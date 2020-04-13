@@ -15,9 +15,9 @@ namespace DLB.EventBus.Transport.Kafka
         private int _pCount;
         private int _maxSize;
 
-        public ConnectionPool(ILogger<ConnectionPool> logger, IOptions<KafkaOptions> options)
+        public ConnectionPool(ILogger<ConnectionPool> logger, KafkaOptions options)
         {
-            _options = options.Value;
+            _options = options;
             _producerPool = new ConcurrentQueue<IProducer<string, byte[]>>();
             _maxSize = _options.ConnectionPoolSize;
 
