@@ -32,12 +32,12 @@ namespace DLB.EventBus.Transport.Kafka
         /// <exception cref="ArgumentNullException">options</exception>
         public KafkaConsumerClient(
                 string groupId,
-                IOptions<KafkaOptions> options,
+                KafkaOptions options,
                 ILogger<KafkaLog> logger)
         {
             _groupId = groupId;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _kafkaOptions = options.Value ?? throw new ArgumentNullException(nameof(options));
+            _kafkaOptions = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         /// <summary>

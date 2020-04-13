@@ -28,8 +28,11 @@ namespace DLB.EventBus.Transport.Kafka
         /// <param name="services">add service to the <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /></param>
         public void AddServices(IServiceCollection services)
         {
-            services.Configure(_configure);
+            var options = new KafkaOptions();
 
+            _configure?.Invoke(options);
+
+            services.AddSingleton(options);
             services.AddSingleton<ITransport, KafkaPublisherTransport>();
             services.AddSingleton<IConsumerClientFactory, KafkaConsumerClientFactory>();
             services.AddSingleton<IConnectionPool, ConnectionPool>();           
