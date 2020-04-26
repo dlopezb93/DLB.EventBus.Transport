@@ -99,7 +99,7 @@ namespace DLB.EventBus.Transport.HostedServices
                         if (headerType == type.Name)
                         {
                             // If no throw exception we found a valid handler
-                            var data = JsonConvert.DeserializeObject(jsonStr, type);
+                            var data = JsonConvert.DeserializeObject(jsonStr, type, this._options.JsonSerializerSettings);
 
                             object[] parametersArray = new object[] { data, context, this };
 

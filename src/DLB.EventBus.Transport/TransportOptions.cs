@@ -1,4 +1,5 @@
 ﻿using DLB.EventBus.Transport.Transport;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -17,6 +18,7 @@ namespace DLB.EventBus.Transport
         {
             DefaultGroup = "transport.group." + Assembly.GetEntryAssembly()?.GetName().Name.ToLower();
             Extensions = new List<ITransportOptionsExtension>();
+            JsonSerializerSettings = new JsonSerializerSettings();
         }        
 
         internal IList<ITransportOptionsExtension> Extensions { get; }
@@ -28,6 +30,14 @@ namespace DLB.EventBus.Transport
         /// The default group.
         /// </value>
         public string DefaultGroup { get; set; }
+
+        /// <summary>
+        /// Gets or sets the json serializer settings.
+        /// </summary>
+        /// <value>
+        /// The json serializer settings.
+        /// </value>
+        public JsonSerializerSettings JsonSerializerSettings { get; set; }
 
         /// <summary>
         /// Occurs when [on log error].

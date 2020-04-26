@@ -1,6 +1,7 @@
 ﻿using DLB.EventBus.Transport;
 using DLB.EventBus.Transport.Messages;
 using DLB.EventBus.Transport.Transport;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,19 @@ namespace DLB.EventBus.Transport
     public class TransportPublisher : ITransportPublisher
     {
         private ITransport _transport;
+        private TransportOptions _options;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TransportPublisher"/> class.
         /// </summary>
         /// <param name="transport">The transport.</param>
         /// <exception cref="ArgumentNullException">transport</exception>
-        public TransportPublisher(ITransport transport)
+        public TransportPublisher(
+                ITransport transport,
+                IOptions<TransportOptions> transportOptions)
         {
             _transport = transport ?? throw new ArgumentNullException(nameof(transport));
+            _options = transportOptions.Value;
         }
 
         /// <summary>
@@ -78,7 +83,7 @@ namespace DLB.EventBus.Transport
                 headers.Add(Headers.CorrelationId, messageId);
             }
 
-            var json = JsonConvert.SerializeObject(value);
+            var json = JsonConvert.SerializeObject(value, _options.JsonSerializerSettings);
             var bytes = Encoding.UTF8.GetBytes(json);
 
             var message = new TransportMessage(headers, bytes, name);
