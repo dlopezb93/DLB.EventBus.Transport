@@ -34,6 +34,25 @@ public void ConfigureServices(IServiceCollection services)
             services.AddControllers();
         }
 ```
+### Configure JsonSerializer
+
+DLB.EventBus allow set custom JsonSerializerSettings:
+
+```csharp
+ services.AddTransport(opt =>
+            {
+                opt.UseKafka(cnf =>
+                {
+                    cnf.MainConfig.BootstrapServers = eventBusSettings.Servers;
+                });
+
+                opt.JsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings()
+                {
+                    ContractResolver = new DefaultContractResolver() { NamingStrategy = new SnakeCaseNamingStrategy() }
+                };
+            }).RegisterSubscriber<HelloWorldIntegrationEventHandler>()
+              .RegisterSubscriber<HelloNewSchemaIntegrationEventHandler>();
+```
 
 ### Subscriber class
 
