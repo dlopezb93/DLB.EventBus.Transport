@@ -36,7 +36,7 @@ public void ConfigureServices(IServiceCollection services)
 ```
 ### Configure JsonSerializer
 
-DLB.EventBus allow us set custom JsonSerializerSettings:
+DLB.EventBus allow us to set custom JsonSerializerSettings:
 
 ```csharp
  services.AddTransport(opt =>
@@ -56,9 +56,9 @@ DLB.EventBus allow us set custom JsonSerializerSettings:
 
 ### Subscriber class
 
-With DLB.EventBus.Transport.Kafka you can subscribe to multiple events in the same topic. Only you need to do is define the class and implement interface ITransportSubscriber and set topic name abstract property.
+With DLB.EventBus.Transport.Kafka you can subscribe to multiple events in the same topic. Only you need to do is define the class and implement interface ITransportSubscriber and set the topic name abstract property.
 
-When you are subscribe to multiple events, the handler who will be execute it's determinate with name of the event (ClassName).
+When you are subscribing to multiple events, the handler who will be executed, it's determinate with the name of the event (ClassName).
 
 In the below example you can implements many ITransportSubscriber in the same class to received multiple events in the same  topic.
 
